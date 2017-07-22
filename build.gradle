@@ -1,34 +1,48 @@
-buildscript {
-	ext {
-		springBootVersion = '1.5.4.RELEASE'
-	}
-	repositories {
-		mavenCentral()
-	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-	}
-}
-
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 
 group = 'net.rainhelper.aimer'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+version = '1.0'
+buildDir = 'target'
+
+ext {
+    javaVersion = '1.8'
+    lombokVersion = '1.16.18'
+    beanUtilVersion = '1.9.3'
+    h2Version = '1.4.196'
+}
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+sourceCompatibility = javaVersion
+targetCompatibility = javaVersion
+
+buildscript {
+    ext {
+        springBootVersion = '1.5.4.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
 
 repositories {
-	mavenCentral()
+    jcenter()
+    mavenCentral()
 }
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter-data-jpa')
-	compile('org.springframework.boot:spring-boot-starter-web')
-	compile('commons-beanutils:commons-beanutils:1.9.3')
-	runtime('com.h2database:h2')
-	compileOnly('org.projectlombok:lombok')
-	testCompile('org.springframework.boot:spring-boot-starter-test')
-	testCompile('com.jayway.jsonpath:json-path')
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'commons-beanutils:commons-beanutils:${beanUtilVersion}'
+    compile 'com.h2database:h2:${h2Version}'
+    compile 'org.projectlombok:lombok:${lombokVersion}'
+
+    testCompile(
+            ['org.springframework.boot:spring-boot-starter-test'],
+            ['com.jayway.jsonpath:json-path']
+    )
 }
